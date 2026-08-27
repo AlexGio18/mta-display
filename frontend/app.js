@@ -74,11 +74,14 @@ function renderDepartures(data) {
         }
     });
 
+    const routeOrder = ["Q", "B", "FS"];
 
-      // Create a section for each route
-    container.innerHTML =
-        Object.entries(grouped)
-            .map(([route, departures]) => {
+container.innerHTML =
+    routeOrder
+        .filter(route => grouped[route])
+        .map(route => {
+
+          const departures = grouped[route];
 
                 return `
                     <section class="route-group">
