@@ -4,6 +4,7 @@ import zipfile
 
 import requests
 from models.station import Station
+from models.trip import Trip
 
 class GtfsStationRepository:
     GTFS_URL = "https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip"
@@ -11,6 +12,8 @@ class GtfsStationRepository:
  
     def __init__(self):
         self.stops = []
+        self.trips = {}
+        self.realtime_trips = {}
 
     def load(self):
         response = requests.get(
@@ -30,6 +33,30 @@ class GtfsStationRepository:
                 reader = csv.DictReader(text_file)
 
                 self.stops = list(reader)
+
+            with archive.open("trips.txt") as file:
+                text_file = io.TextIOWrapper(
+                    file,
+                    encoding="utf-8"
+                )
+
+                reader = csv.DictReader(text_file)
+
+                for row in reader:
+                    trip = Trip(
+                        id=row["trip_id"],
+                        route_id=row["route_id"],
+                        direction_id=row.get("direction_id", ""),
+                        headsign=row.get("trip_headsign", "")
+                    )
+
+                    self.trips[trip.id] = trip
+                    realtime_trip_id = self._get_realtime_trip_id(
+                        trip.id
+                    )
+
+                    if realtime_trip_id:
+                        self.realtime_trips[realtime_trip_id] = trip
 
     def find_station(self, name: str) -> Station | None:
         station = next(
@@ -66,3 +93,31 @@ class GtfsStationRepository:
             longitude=float(station["stop_lon"]),
             stop_ids=stop_ids
         )
+
+    def get_trip(self, realtime_trip_id: str) -> Trip | None:
+        trip = self.realtime_trips.get(realtime_trip_id)
+
+        if trip is not None:
+            return trip
+
+        # Fallback for MTA trip ID formatting differences.
+        for static_trip_id, trip in self.trips.items():
+            if static_trip_id.endswith(realtime_trip_id):
+                return trip
+
+        return None
+
+    @staticmethod
+    def _get_realtime_trip_id(trip_id: str) -> str | None:
+        parts = trip_id.split("_", 1)
+
+        if len(parts) != 2:
+            return None
+
+        remainder = parts[1]
+
+        # The realtime ID starts with the numeric trip portion.
+        if not remainder or not remainder[0].isdigit():
+            return None
+
+        return remainder

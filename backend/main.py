@@ -15,10 +15,6 @@ def main():
         print("Station not found")
         return
 
-    print()
-    print(f"Station: {station.name}")
-    print(f"Stop IDs: {station.stop_ids}")
-
     mta_client = MtaClient()
 
     departure_service = DepartureService(
@@ -32,14 +28,15 @@ def main():
     )
 
     print()
-    print("Upcoming departures:")
+    print(f"Upcoming departures from {station.name}:")
     print()
 
     for departure in departures:
         print(
-            f"{departure.route} "
-            f"{departure.minutes_until} min "
-            f"({departure.stop_id}) "
+            f"{departure.route:>2} | "
+            f"{departure.direction:<11} | "
+            f"{departure.destination:<20} | "
+            f"{departure.minutes_until:>2} min | "
             f"{departure.arrival_time.strftime('%I:%M:%S %p')}"
         )
 

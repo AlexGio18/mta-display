@@ -5,7 +5,8 @@ from datetime import datetime
 @dataclass
 class Departure:
     route: str
-    stop_id: str
+    destination: str
+    direction: str
     arrival_time: datetime
 
     @property
