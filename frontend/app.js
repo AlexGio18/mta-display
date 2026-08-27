@@ -64,16 +64,21 @@ function renderDepartures(data) {
     const grouped = {};
 
     data.departures.forEach(departure => {
-
-        if (!grouped[departure.route]) {
-            grouped[departure.route] = [];
+        const route = departure.route;
+        const direction = departure.direction;
+        console.log(direction)
+        if (!grouped[route]) {
+            grouped[route] = {};
         }
 
-        if (grouped[departure.route].length < 5) {
-                grouped[departure.route].push(departure);
+        if (!grouped[route][direction]) {
+            grouped[route][direction] = [];
         }
+
+        grouped[route][direction].push(departure);
     });
 
+    console.log(grouped)
     const routeOrder = ["Q", "B", "FS"];
 
 container.innerHTML =
@@ -81,7 +86,7 @@ container.innerHTML =
         .filter(route => grouped[route])
         .map(route => {
 
-          const departures = grouped[route];
+          const departures = grouped[route]["Manhattan-bound"];
 
                 return `
                     <section class="route-group">
