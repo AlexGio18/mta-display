@@ -83,7 +83,7 @@ h1 {
 .route-header {
     display: flex;
     padding: 15px 0px;
-    font-size: 20px;
+    font-size: 32px;
     font-weight: bold;
     align-items: center;
 }
@@ -107,7 +107,7 @@ h1 {
 
     color: black;
 
-    font-size: 25px;
+    font-size: 36px;
 }
 
 .B {
@@ -126,7 +126,7 @@ h1 {
 
 
 .destination {
-    font-size: 24px;
+    font-size: 42px;
 
     font-weight: bold;
 }
@@ -137,7 +137,7 @@ h1 {
 
     color: #aaa;
 
-    font-size: 16px;
+    font-size: 24px;
 }
 
 
