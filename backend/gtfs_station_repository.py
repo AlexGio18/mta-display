@@ -3,8 +3,8 @@ import io
 import zipfile
 
 import requests
-from models.station import Station
-from models.trip import Trip
+from backend.models.station import Station
+from backend.models.trip import Trip
 
 class GtfsStationRepository:
     GTFS_URL = "https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip"

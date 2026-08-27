@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>MTA Train Display</title>
+
+    <link
+        rel="stylesheet"
+        href="./static/style.css"
+    >
+</head>
+
+<body>
+
+    <main class="display">
+
+        <header>
+            <div>
+                <h1>Prospect Park</h1>
+                <p class="subtitle">Brooklyn, NY</p>
+            </div>
+
+            <div class="clock" id="clock">
+                --:--
+            </div>
+        </header>
+
+
+        <section id="departures">
+
+            <div class="loading">
+                Loading departures...
+            </div>
+
+        </section>
+
+
+        <footer>
+
+            <span>
+                MTA data updated
+                <strong id="updated">
+                    --
+                </strong>
+            </span>
+
+            <span>
+                <span id="status-dot"></span>
+                <span id="status">
+                    Connecting...
+                </span>
+            </span>
+
+        </footer>
+
+    </main>
+
+
+    <script src="./static/app.js"></script>
+
+</body>
+
+</html>

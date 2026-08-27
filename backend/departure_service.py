@@ -1,9 +1,10 @@
 from datetime import datetime, timedelta
 
-from gtfs_station_repository import GtfsStationRepository
-from mta_client import MtaClient
-from models.departure import Departure
-from models.station import Station
+from backend.gtfs_station_repository import GtfsStationRepository
+from backend.mta_client import MtaClient
+from backend.models.departure_board import DepartureBoard
+from backend.models.departure import Departure
+from backend.models.station import Station
 
 
 class DepartureService:
@@ -41,6 +42,16 @@ class DepartureService:
         feeds = self.mta_client.get_feeds(
             feed_names
         )
+
+        feed_timestamps = [
+            feed.header.timestamp
+            for feed in feeds.values()
+            if feed.header.HasField("timestamp")
+        ]
+
+        feed_updated_at = datetime.fromtimestamp(
+            max(feed_timestamps)
+        ).astimezone()
 
         for route, feed_name in self.ROUTE_FEEDS.items():
             feed = feeds[feed_name]
@@ -82,6 +93,11 @@ class DepartureService:
                         arrival_timestamp
                     ).astimezone()
 
+                    delay_seconds = 0
+
+                    if stop_update.arrival.HasField("delay"):
+                        delay_seconds = stop_update.arrival.delay
+
                     if arrival_time < minimum_arrival_time:
                         continue
 
@@ -94,7 +110,8 @@ class DepartureService:
                             route=route,
                             destination=trip_info.headsign,
                             direction=direction,
-                            arrival_time=arrival_time
+                            arrival_time=arrival_time,
+                            delay_seconds=delay_seconds
                         )
                     )
 
@@ -102,17 +119,21 @@ class DepartureService:
             key=lambda departure: departure.arrival_time
         )
 
-        return departures[:limit]
-
+        return DepartureBoard(
+            feed_updated_at=feed_updated_at,
+            retrieved_at=now,
+            departures=departures[:limit]
+        )
+    
     @staticmethod
     def _get_direction(
         direction_id: str
     ) -> str:
 
         if direction_id.__eq__("0"):
-            return "Northbound"
+            return "Manhattan-bound"
 
         if direction_id.endswith("1"):
-            return "Southbound"
+            return "Brooklyn-bound"
 
         return direction_id

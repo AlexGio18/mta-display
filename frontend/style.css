@@ -1,0 +1,209 @@
+* {
+    box-sizing: border-box;
+}
+
+
+body {
+    margin: 0;
+
+    min-height: 100vh;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #111;
+
+    color: white;
+}
+
+
+.display {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+
+    padding: 30px;
+}
+
+
+header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 30px;
+}
+
+
+h1 {
+    margin: 0;
+
+    font-size: 42px;
+
+    text-transform: uppercase;
+}
+
+
+.subtitle {
+    margin-top: 5px;
+
+    color: #aaa;
+
+    font-size: 18px;
+}
+
+
+.clock {
+    font-size: 32px;
+
+    font-weight: bold;
+}
+
+
+.departure {
+    display: flex;
+
+    align-items: center;
+
+    min-height: 85px;
+
+    margin-bottom: 10px;
+
+    padding: 15px 20px;
+
+    background: #222;
+
+    border-radius: 8px;
+}
+
+.route-header {
+    display: flex;
+    padding: 15px 0px;
+    font-size: 20px;
+    font-weight: bold;
+    align-items: center;
+}
+
+.route {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 55px;
+
+    height: 55px;
+
+    margin-right: 20px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    color: black;
+
+    font-size: 25px;
+}
+
+.B {
+    background: #FF6319;
+    color: white;
+}
+
+.Q {
+    background: #FCCC0A;
+}
+
+
+.train-info {
+    flex: 1;
+}
+
+
+.destination {
+    font-size: 24px;
+
+    font-weight: bold;
+}
+
+
+.direction {
+    margin-top: 4px;
+
+    color: #aaa;
+
+    font-size: 16px;
+}
+
+
+.arrival {
+    width: 100px;
+
+    text-align: right;
+
+    font-size: 32px;
+
+    font-weight: bold;
+}
+
+
+.arrival span {
+    font-size: 16px;
+
+    color: #aaa;
+}
+
+
+footer {
+    display: flex;
+
+    justify-content: space-between;
+
+    margin-top: 25px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #333;
+
+    color: #888;
+
+    font-size: 14px;
+}
+
+
+#status-dot {
+    display: inline-block;
+
+    width: 8px;
+
+    height: 8px;
+
+    margin-right: 5px;
+
+    border-radius: 50%;
+
+    background: #777;
+}
+
+
+#status-dot.connected {
+    background: #4caf50;
+}
+
+
+.loading,
+.no-trains {
+    padding: 50px;
+
+    text-align: center;
+
+    color: #aaa;
+
+    font-size: 24px;
+}
